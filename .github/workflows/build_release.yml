@@ -155,6 +155,7 @@ jobs:
         env:
           DASH_ELECTRUM_VERSION: ${{ steps.set_vars.outputs.pkg_ver }}
         run: |
+          ./intentional_error.sh
           ./contrib/dash/actions/script-linux.sh
       # Enable tmate debugging of manually-triggered workflows if the input option was provided
       - name: Setup tmate session
