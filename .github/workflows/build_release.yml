@@ -123,6 +123,12 @@ jobs:
           IS_RELEASE: ${{ steps.set_vars.outputs.is_release }}
         run: |
           ./contrib/dash/actions/script-linux-apk.sh
+      # Enable tmate debugging of manually-triggered workflows if the input option was provided
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ failure() && github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled }}
+        with:
+          limit-access-to-actor: true
       - name: Upload Release Asset
         if: ${{ steps.set_vars.outputs.is_release || matrix.is_mainnet[0] == 'false' }}
         uses: actions/upload-release-asset@v1
