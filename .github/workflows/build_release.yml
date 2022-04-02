@@ -2,6 +2,11 @@ name: Build release workflow
 
 on:
   workflow_dispatch:
+    inputs:
+      debug_enabled:
+        description: 'Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)'     
+        required: false
+        default: false
   push:
     tags:
     - '*'
@@ -34,12 +39,6 @@ jobs:
           release_name: ${{ github.ref }}
           draft: false
           prerelease: false
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
 
   build_osx:
     needs: create_release
@@ -48,6 +47,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
+      # Enable tmate debugging of manually-triggered workflows if the input option was provided
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled }}
       - name: Set outputs for pkg_ver
         id: set_vars
         run: |
@@ -136,6 +139,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
+      # Enable tmate debugging of manually-triggered workflows if the input option was provided
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled }}
       - name: Set outputs for pkg_ver
         id: set_vars
         run: |
