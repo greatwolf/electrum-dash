@@ -1,4 +1,5 @@
 #!/bin/bash
+set -ev
 
 source ./contrib/dash/travis/electrum_dash_version_env.sh;
 echo wine build version is $DASH_ELECTRUM_VERSION
