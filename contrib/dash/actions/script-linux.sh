@@ -46,7 +46,7 @@ unzip ${ZBARW_FILE} && rm ${ZBARW_FILE} sha256.txt
 
 
 #docker run --rm \
-docker run -it \
+docker run -i \
     -e WINEARCH=$WINEARCH \
     -e WINEPREFIX=$WINEPREFIX \
     -e PYHOME=$PYHOME \
